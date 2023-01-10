@@ -15,10 +15,9 @@ public class PlayerController : MonoBehaviour
 
     void MyProcedureFunction(ushort fromUser, ProcedureParameters parameters, uint callId, ITransportStreamReader processor)
     {
-        float myValue = parameters.Get("value", 0);
-        string myString = parameters.Get("string_value", "default value");
-
-        text.text = "has won";
+        ushort outer = 0;
+        parameters.Get("winner", outer);
+        text.text = fromUser + " has won";
     }
 
     void CallMyProcedure()
@@ -26,7 +25,7 @@ public class PlayerController : MonoBehaviour
         foreach (User each in mp.GetUsers())
         {
             ProcedureParameters parameters = new ProcedureParameters();
-            parameters.Set("value", 16.0f);
+            parameters.Set("winner", _avatar.Possessor.Index);
             mp.InvokeRemoteProcedure("MyProcedureName", each.Index, parameters);
         }
     }
