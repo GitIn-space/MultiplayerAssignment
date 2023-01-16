@@ -17,6 +17,11 @@ public class TeamComponent : MonoBehaviour
     private int team = -1;
     private Multiplayer mp;
 
+    public void StartDividingIntoTeams()
+    {
+
+    }
+
     void GetDividedIntoTeam(ushort fromUser, ProcedureParameters parameters, uint callId, ITransportStreamReader processor)
     {
         parameters.Get("team", team);
