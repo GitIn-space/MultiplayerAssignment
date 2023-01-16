@@ -9,13 +9,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float RotationSpeed = 180.0f;
     [SerializeField] private Multiplayer mp;
     [SerializeField] private TextMeshProUGUI winText;
-    [SerializeField] private TextMeshProUGUI team1;
-    [SerializeField] private TextMeshProUGUI team2;
 
     private Alteruna.Avatar _avatar;
     private SpriteRenderer _renderer;
     private TeamComponent tc;
-    private TeamComponent mytc;
+    private static TeamComponent mytc;
 
     void MyProcedureFunction(ushort fromUser, ProcedureParameters parameters, uint callId, ITransportStreamReader processor)
     {
