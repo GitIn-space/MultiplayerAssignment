@@ -19,12 +19,18 @@ public class TeamComponent : MonoBehaviour
 
     public void StartDividingIntoTeams()
     {
-
+        int c = 0;
+        foreach(User each in mp.GetUsers())
+        {
+            ProcedureParameters parameters = new ProcedureParameters();
+            parameters.Set("team", (c++ % 2));
+            mp.InvokeRemoteProcedure("GetDividedIntoTeam", each.Index, parameters);
+        }
     }
 
     void GetDividedIntoTeam(ushort fromUser, ProcedureParameters parameters, uint callId, ITransportStreamReader processor)
     {
-        parameters.Get("team", team);
+        team = parameters.Get("team", 0);
     }
 
     void Start()

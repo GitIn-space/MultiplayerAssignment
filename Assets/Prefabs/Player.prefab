@@ -13,9 +13,8 @@ GameObject:
   - component: {fileID: 8982822191450808675}
   - component: {fileID: 8880283017611291763}
   - component: {fileID: 250778099989483890}
-  - component: {fileID: -5408479709849975046}
-  - component: {fileID: -8861739496822963001}
   - component: {fileID: 5274794354770740103}
+  - component: {fileID: -42373068154023967}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -140,30 +139,7 @@ MonoBehaviour:
   RotationSpeed: 180
   mp: {fileID: 0}
   winText: {fileID: 0}
-  team1: {fileID: 0}
-  team2: {fileID: 0}
---- !u!50 &-5408479709849975046
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 496216402391807533}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &-8861739496822963001
+--- !u!114 &5274794354770740103
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,7 +148,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 496216402391807533}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1315754324, guid: 0ae8d181602a00248a82f64a684a1c88, type: 3}
+  m_Script: {fileID: 11500000, guid: 2398f19eae111da41a1987eb1641376a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-42373068154023967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496216402391807533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1312809854, guid: 0ae8d181602a00248a82f64a684a1c88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Multiplayer: {fileID: 0}
@@ -213,18 +201,3 @@ MonoBehaviour:
     LastUpdated: 0
     NeverString: Never
     RealtimeString: Realtime
-  SyncEveryNUpdates: 2
-  FullSyncEveryNSync: 2
-  sendData: 1
---- !u!114 &5274794354770740103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 496216402391807533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2398f19eae111da41a1987eb1641376a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
