@@ -8,16 +8,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float Speed = 10.0f;
     [SerializeField] private float RotationSpeed = 180.0f;
     [SerializeField] private Multiplayer mp;
-    [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private TextMeshProUGUI winText;
+    [SerializeField] private TextMeshProUGUI team1;
+    [SerializeField] private TextMeshProUGUI team2;
 
     private Alteruna.Avatar _avatar;
     private SpriteRenderer _renderer;
+    private int index;
 
     void MyProcedureFunction(ushort fromUser, ProcedureParameters parameters, uint callId, ITransportStreamReader processor)
     {
         ushort outer = 0;
         parameters.Get("winner", outer);
-        text.text = fromUser + " has won";
+        winText.text = fromUser + " has won";
     }
 
     void CallMyProcedure()
@@ -28,6 +31,7 @@ public class PlayerController : MonoBehaviour
             parameters.Set("winner", _avatar.Possessor.Index);
             mp.InvokeRemoteProcedure("MyProcedureName", each.Index, parameters);
         }
+        //mp.InvokeRemoteProcedure("MyProcedureName", UserId.All, parameters);
     }
 
     void Start()
@@ -38,8 +42,7 @@ public class PlayerController : MonoBehaviour
 
         mp = FindObjectOfType<Multiplayer>();
         mp.RegisterRemoteProcedure("MyProcedureName", MyProcedureFunction);
-
-        text = FindObjectOfType<TextMeshProUGUI>();
+        winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
     }
 
     void Update()
