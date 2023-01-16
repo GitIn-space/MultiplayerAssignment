@@ -22,14 +22,14 @@ public class PlayerUI : Synchronizable
     {
         _name = reader.ReadString();
         _score = reader.ReadString();
-        _oldName = _name;
-        _oldScore = _score;
+        //_oldName = _name;
+        //_oldScore = _score;
     }
 
     public void SetName(string name)
     {
         _name = name;
-        _oldName = _name;
+        //_oldName = _name;
         Commit();
         _nameTextComponent.text = _name;
     }
@@ -37,7 +37,7 @@ public class PlayerUI : Synchronizable
     public void SetScore(int score)
     {
         _score = score.ToString();
-        _oldScore = _score;
+        //_oldScore = _score;
         Commit();
 
         _scoreTextComponent.text = _score;
