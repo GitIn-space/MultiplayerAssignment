@@ -31,7 +31,7 @@ public class PlayerUI : Synchronizable
         _name = name;
         _oldName = _name;
         Commit();
-        _nameTextComponent.text = name;
+        _nameTextComponent.text = _name;
     }
 
     public void SetScore(int score)
@@ -39,6 +39,8 @@ public class PlayerUI : Synchronizable
         _score = score.ToString();
         _oldScore = _score;
         Commit();
+
+        _scoreTextComponent.text = _score;
     }
 
     private void Update()
