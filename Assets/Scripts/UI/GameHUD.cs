@@ -8,17 +8,22 @@ public class GameHUD : MonoBehaviour
     [SerializeField] private Multiplayer _mp;
 
 
-
     void AddPlayerToList(Multiplayer mp, User user)
     {
         PlayerUI ui = Instantiate(_playerUIPrefab, _playerList.transform).GetComponent<PlayerUI>();
         ui.SetName(user.Name);
     }
 
-    [ContextMenu("Update Player Score")]
-    void UpdatePlayerScore()
+    [ContextMenu("Update Player One Score")]
+    void UpdatePlayerOneScore()
     {
         _playerList.transform.GetChild(0).GetComponent<PlayerUI>().SetScore(5000);
+    }
+
+    [ContextMenu("Update Player Twp Score")]
+    void UpdatePlayerTwoScore()
+    {
+        _playerList.transform.GetChild(1).GetComponent<PlayerUI>().SetScore(5000);
     }
 
     [ContextMenu("Call Procedure")]
@@ -32,8 +37,6 @@ public class GameHUD : MonoBehaviour
         {
             _mp.InvokeRemoteProcedure("MyProcedureFunction", user.Index);
         }
-
-
     }
 
 
@@ -63,13 +66,17 @@ public class GameHUD : MonoBehaviour
 
     void Start()
     {
-        _mp.RegisterRemoteProcedure("MyProcedureName", MyProcedureFunction);
+        _mp.RegisterRemoteProcedure("MyProcedureFunction", MyProcedureFunction);
     }
 
     private void Awake()
     {
         //_mp.OtherUserJoined.AddListener(AddPlayerToList);
         //_mp.RoomJoined.AddListener(OnRoomJoined);
+    }
+    void Update()
+    {
+
     }
 
 
