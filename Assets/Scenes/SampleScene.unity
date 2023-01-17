@@ -346,8 +346,6 @@ GameObject:
   - component: {fileID: 796507670}
   - component: {fileID: 796507669}
   - component: {fileID: 796507671}
-  - component: {fileID: 796507673}
-  - component: {fileID: 796507672}
   m_Layer: 5
   m_Name: PlayerList
   m_TagString: Untagged
@@ -441,70 +439,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &796507672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 796507667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af6e6ffb25764944a951c71ce285333b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Multiplayer: {fileID: 71176917}
-  UID: {fileID: 0}
-  BucketBehaviors:
-  - Name: Min
-    NetLOD: 0
-    Frequency: -1
-    Pending: 0
-    LastUpdated: 0
-    NeverString: Never
-    RealtimeString: Realtime
-  - Name: Low
-    NetLOD: 1
-    Frequency: 0
-    Pending: 0
-    LastUpdated: 0
-    NeverString: Never
-    RealtimeString: Realtime
-  - Name: Mid
-    NetLOD: 2
-    Frequency: 0
-    Pending: 0
-    LastUpdated: 0
-    NeverString: Never
-    RealtimeString: Realtime
-  - Name: High
-    NetLOD: 3
-    Frequency: 0
-    Pending: 0
-    LastUpdated: 0
-    NeverString: Never
-    RealtimeString: Realtime
-  - Name: Max
-    NetLOD: 4
-    Frequency: 500
-    Pending: 0
-    LastUpdated: 0
-    NeverString: Never
-    RealtimeString: Realtime
-  SynchronizedFloat: 3
---- !u!114 &796507673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 796507667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1709514741, guid: 0ae8d181602a00248a82f64a684a1c88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  a: 68d958e5-3325-40f0-b8a0-83875897f483
 --- !u!1 &1212115053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1007,7 +941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767f204deb8ff0449af4e14136f5da5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerList: {fileID: 796507667}
+  _playerList: {fileID: 1707745025}
   _playerUIPrefab: {fileID: 5473202654892299523, guid: 9f314ef7c1276b149af4181653e69a4c, type: 3}
   _mp: {fileID: 71176917}
 --- !u!1 &3812758182269405663

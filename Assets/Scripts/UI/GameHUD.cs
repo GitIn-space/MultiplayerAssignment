@@ -12,8 +12,10 @@ public class GameHUD : MonoBehaviour
 
     void AddPlayerToList(Multiplayer mp, User user)
     {
+        if (playerUIDict.ContainsKey(user)) { return; }
         PlayerUI ui = Instantiate(_playerUIPrefab, _playerList.transform).GetComponent<PlayerUI>();
         ui.SetName(user.Name);
+        ui.SetOwner(user);
         playerUIDict[user] = ui;
     }
 
@@ -29,25 +31,32 @@ public class GameHUD : MonoBehaviour
         playerUIDict[_mp.GetUser(1)].AddScore(5000);
     }
 
-    //void UpdatePlayerList()
-    //{
-    //    foreach (Transform child in _playerList.transform)
-    //        Destroy(child.gameObject);
+    void UpdatePlayerList()
+    {
+        //foreach (Transform child in _playerList.transform)
+        //    Destroy(child.gameObject);
 
-    //    var users = _mp.GetUsers();
-    //    foreach (var user in users)
-    //        AddPlayerToList(user);
-    //}
+        var users = _mp.GetUsers();
+        foreach (var user in users)
+            AddPlayerToList(_mp, user);
+    }
 
-    //void OnRoomJoined(Multiplayer mp, Room room, User user)
-    //{
-    //    AddPlayerToList(user);
-    //}
+    void OnOtherUserJoined(Multiplayer mp, User user)
+    {
+        print($"OtherUserJoined, user: {user} joined.");
+        UpdatePlayerList();
+    }
+
+    void OnRoomJoined(Multiplayer mp, Room room, User user)
+    {
+        print($"RoomJoined, user: {user} joined.");
+        UpdatePlayerList();
+    }
 
     private void Awake()
     {
-        _mp.OtherUserJoined.AddListener(AddPlayerToList);
-        //_mp.RoomJoined.AddListener(OnRoomJoined);
+        _mp.OtherUserJoined.AddListener(OnOtherUserJoined);
+        _mp.RoomJoined.AddListener(OnRoomJoined);
     }
     void Update()
     {
