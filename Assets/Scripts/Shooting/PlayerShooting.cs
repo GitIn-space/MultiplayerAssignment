@@ -2,6 +2,7 @@ using UnityEngine;
 using Alteruna;
 using Alteruna.Trinity;
 using Avatar = Alteruna.Avatar;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Avatar), typeof(TeamComponent))]
 public class PlayerShooting : MonoBehaviour
@@ -26,6 +27,8 @@ public class PlayerShooting : MonoBehaviour
 
     private const string HitProcedureName = "Hit";
 
+    public UnityEvent<int> OnTakeDamage;
+
     void Start()
     {
         avatar = GetComponent<Avatar>();
@@ -49,7 +52,6 @@ public class PlayerShooting : MonoBehaviour
                 Vector2 direction = (mousePos - position).normalized;
                 Vector2 from = position + direction * shootDistanceFromPlayer;
 
-               // RaycastHit2D hit = Physics2D.Raycast(from, direction, shootRange);
                 RaycastHit2D[] hits = Physics2D.RaycastAll(from, direction, shootRange);
 
                 Vector2 to = from + direction * shootRange;
@@ -63,7 +65,7 @@ public class PlayerShooting : MonoBehaviour
                         if (other)
                         {
                             to = hit.point;
-                            CallHitProcedure(other.Possessor.Index);
+                            CallHitProcedure(other.Possessor);
                             break;
                         }
                     }
@@ -98,14 +100,17 @@ public class PlayerShooting : MonoBehaviour
         line.SetPosition(1, to);
     }
 
-    void CallHitProcedure(ushort UserID)
+    void CallHitProcedure(User hitUser)
     {
         ProcedureParameters parameters = new ProcedureParameters();
-        mp.InvokeRemoteProcedure(HitProcedureName, UserID, parameters);
+        parameters.Set("damage", 1);
+        mp.InvokeRemoteProcedure(HitProcedureName, hitUser.Index, parameters);
     }
 
     void HitMethod(ushort fromUser, ProcedureParameters parameters, uint callId, ITransportStreamReader processor)
     {
         Debug.Log("I've been hit, take damage somehow!");
+        int damage = parameters.Get("damage", 1);
+        OnTakeDamage.Invoke(damage);
     }
 }
