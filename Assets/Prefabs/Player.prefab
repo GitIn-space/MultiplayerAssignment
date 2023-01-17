@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 250778099989483890}
   - component: {fileID: 5274794354770740103}
   - component: {fileID: -42373068154023967}
+  - component: {fileID: 5732207613409480834}
+  - component: {fileID: 9164694134276540870}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -201,3 +203,46 @@ MonoBehaviour:
     LastUpdated: 0
     NeverString: Never
     RealtimeString: Realtime
+--- !u!114 &5732207613409480834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496216402391807533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7853a9c31790e034f93bac8b5f4c71e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootButton: Fire1
+  shootDistance: 10
+  shootDistanceFromPlayer: 1
+  timeBetweenShots: 0.5
+  shootLinePrefab: {fileID: 5802377191267875719, guid: bd14ec38ccd5b3c46b3637e66b0ead36, type: 3}
+--- !u!61 &9164694134276540870
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496216402391807533}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0

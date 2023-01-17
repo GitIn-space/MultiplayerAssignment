@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -833263277968024631}
   - component: {fileID: 1128675436149433197}
   - component: {fileID: -3720706934594558790}
+  - component: {fileID: 6747940993094782012}
   m_Layer: 0
   m_Name: PlayerTest
   m_TagString: Untagged
@@ -257,6 +258,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &6747940993094782012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496216402391807533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7853a9c31790e034f93bac8b5f4c71e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootButton: Fire1
+  shootDistance: 10
+  shootDistanceFromPlayer: 1
+  timeBetweenShots: 0.5
+  shootLinePrefab: {fileID: 5802377191267875719, guid: bd14ec38ccd5b3c46b3637e66b0ead36, type: 3}
 --- !u!1 &5747643798259354013
 GameObject:
   m_ObjectHideFlags: 0
