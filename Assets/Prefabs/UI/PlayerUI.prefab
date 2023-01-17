@@ -281,8 +281,8 @@ GameObject:
   - component: {fileID: 5473202654892299520}
   - component: {fileID: 5473202654892299646}
   - component: {fileID: 5473202654892299521}
-  - component: {fileID: -1067416096623592541}
   - component: {fileID: 8098820054106844958}
+  - component: {fileID: 5919296531913743689}
   m_Layer: 5
   m_Name: PlayerUI
   m_TagString: Untagged
@@ -346,23 +346,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &-1067416096623592541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5473202654892299523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93e0c236f74b65a48a90a41b2aa07fb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Multiplayer: {fileID: 0}
-  UID: {fileID: 0}
-  BucketBehaviors: []
-  _nameTextComponent: {fileID: 5473202654876476467}
-  _scoreTextComponent: {fileID: 5473202653830757919}
 --- !u!114 &8098820054106844958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,3 +359,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   a: 22439257-dca7-4651-8f94-1108eb115c14
+--- !u!114 &5919296531913743689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5473202654892299523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93e0c236f74b65a48a90a41b2aa07fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Multiplayer: {fileID: 0}
+  UID: {fileID: 0}
+  BucketBehaviors:
+  - Name: Min
+    NetLOD: 0
+    Frequency: -1
+    Pending: 0
+    LastUpdated: 0
+    NeverString: Never
+    RealtimeString: Realtime
+  - Name: Low
+    NetLOD: 1
+    Frequency: 0
+    Pending: 0
+    LastUpdated: 0
+    NeverString: Never
+    RealtimeString: Realtime
+  - Name: Mid
+    NetLOD: 2
+    Frequency: 0
+    Pending: 0
+    LastUpdated: 0
+    NeverString: Never
+    RealtimeString: Realtime
+  - Name: High
+    NetLOD: 3
+    Frequency: 0
+    Pending: 0
+    LastUpdated: 0
+    NeverString: Never
+    RealtimeString: Realtime
+  - Name: Max
+    NetLOD: 4
+    Frequency: 500
+    Pending: 0
+    LastUpdated: 0
+    NeverString: Never
+    RealtimeString: Realtime
+  _nameTextComponent: {fileID: 5473202654876476467}
+  _scoreTextComponent: {fileID: 5473202653830757919}

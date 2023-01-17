@@ -1,29 +1,32 @@
 using Alteruna;
 using Alteruna.Trinity;
 using UnityEngine;
+using System.Collections.Generic;
 public class GameHUD : MonoBehaviour
 {
     [SerializeField] private GameObject _playerList;
     [SerializeField] private GameObject _playerUIPrefab;
     [SerializeField] private Multiplayer _mp;
 
+    private Dictionary<User, PlayerUI> playerUIDict = new Dictionary<User, PlayerUI>();
 
     void AddPlayerToList(Multiplayer mp, User user)
     {
         PlayerUI ui = Instantiate(_playerUIPrefab, _playerList.transform).GetComponent<PlayerUI>();
         ui.SetName(user.Name);
+        playerUIDict[user] = ui;
     }
 
     [ContextMenu("Update Player One Score")]
     void UpdatePlayerOneScore()
     {
-        _playerList.transform.GetChild(0).GetComponent<PlayerUI>().SetScore(5000);
+        playerUIDict[_mp.GetUser(0)].AddScore(5000);
     }
 
-    [ContextMenu("Update Player Twp Score")]
+    [ContextMenu("Update Player Two Score")]
     void UpdatePlayerTwoScore()
     {
-        _playerList.transform.GetChild(1).GetComponent<PlayerUI>().SetScore(5000);
+        playerUIDict[_mp.GetUser(1)].AddScore(5000);
     }
 
     [ContextMenu("Call Procedure")]
