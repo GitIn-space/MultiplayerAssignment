@@ -3,6 +3,7 @@ using Alteruna;
 using Alteruna.Trinity;
 using Avatar = Alteruna.Avatar;
 
+[RequireComponent(typeof(Avatar), typeof(TeamComponent))]
 public class PlayerShooting : MonoBehaviour
 {
     [SerializeField] string shootButton = "Fire1";
@@ -11,8 +12,9 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] float timeBetweenShots = 0.5f;
     [SerializeField] LineRenderer shootLinePrefab;
 
-    private Multiplayer mp;
     private Avatar avatar;
+    private TeamComponent tc;
+    private Multiplayer mp;
 
     private float lastShotTime = float.NegativeInfinity;
 
@@ -27,6 +29,7 @@ public class PlayerShooting : MonoBehaviour
     void Start()
     {
         avatar = GetComponent<Avatar>();
+        tc = GetComponent<TeamComponent>();
         mp = FindObjectOfType<Multiplayer>();
         mp.RegisterRemoteProcedure(ShootProcedureName, ShootMethod);
         mp.RegisterRemoteProcedure(HitProcedureName, HitMethod);
@@ -46,21 +49,24 @@ public class PlayerShooting : MonoBehaviour
                 Vector2 direction = (mousePos - position).normalized;
                 Vector2 from = position + direction * shootDistanceFromPlayer;
 
-                RaycastHit2D hit = Physics2D.Raycast(from, direction, shootRange);
-                Vector2 to;
-                
-                if (hit)
+               // RaycastHit2D hit = Physics2D.Raycast(from, direction, shootRange);
+                RaycastHit2D[] hits = Physics2D.RaycastAll(from, direction, shootRange);
+
+                Vector2 to = from + direction * shootRange;
+
+                foreach (RaycastHit2D hit in hits) 
                 {
-                    to = hit.point;
-                    Avatar other = hit.transform.GetComponent<Avatar>();
-                    if (other)
+                    TeamComponent otherTeam = hit.transform.GetComponent<TeamComponent>();
+                    if (otherTeam && otherTeam.Team != tc.Team)
                     {
-                        CallHitProcedure(other.Possessor.Index);
+                        Avatar other = hit.transform.GetComponent<Avatar>();
+                        if (other)
+                        {
+                            to = hit.point;
+                            CallHitProcedure(other.Possessor.Index);
+                            break;
+                        }
                     }
-                }
-                else
-                {
-                    to = from + direction * shootRange;
                 }
 
                 CallShootProcedure(from, to);
