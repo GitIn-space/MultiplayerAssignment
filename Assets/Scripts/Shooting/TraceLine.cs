@@ -34,7 +34,7 @@ public class TraceLine : MonoBehaviour
         if (timeleft <= 0)
             Destroy(gameObject);
 
-        float t = lifetime - timeleft;
+        float t = 1 - timeleft / lifetime;
         line.startColor = Color.Lerp(start, targetStart, t);
         line.endColor = Color.Lerp(end, targetEnd, t);
     }
