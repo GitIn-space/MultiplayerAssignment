@@ -9,8 +9,8 @@ public class PlayerPositionSync : Synchronizable
     private Vector3 playerPosition;
     private Vector3 oldPlayerPosition;
 
-    private Quaternion playerRotation;
-    private Quaternion oldPlayerRotation;
+    private Vector3 playerRotation;
+    private Vector3 oldPlayerRotation;
 
     public PlayerPositionSync()
     {
@@ -27,8 +27,8 @@ public class PlayerPositionSync : Synchronizable
         transform.position = playerPosition;
         oldPlayerPosition = playerPosition;
 
-        playerRotation = reader.ReadQuaternion();
-        transform.rotation = playerRotation;
+        playerRotation = reader.ReadVector3();
+        transform.eulerAngles = playerRotation;
         oldPlayerRotation = playerRotation;
     }
 
@@ -50,7 +50,8 @@ public class PlayerPositionSync : Synchronizable
     private void Update()
     {
         playerPosition = transform.position;
-        playerRotation = transform.rotation;
+        playerRotation = transform.eulerAngles;
+        print(playerRotation);
 
         if(playerPosition != oldPlayerPosition)
         {
@@ -63,6 +64,7 @@ public class PlayerPositionSync : Synchronizable
             oldPlayerRotation = playerRotation;
             Commit();
         }
+
 
         base.SyncUpdate();
     }

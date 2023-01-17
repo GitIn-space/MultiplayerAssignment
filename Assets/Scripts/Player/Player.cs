@@ -7,6 +7,7 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
+    [HideInInspector]
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
@@ -15,29 +16,35 @@ public class Player : MonoBehaviour
     // Customization
 
     // Movement
+    [HideInInspector]
     public int xInput;
     public int yInput;
     public bool jumpInput;
     public Vector2 inputVector;
     public Vector2 moveDirection;
-    public float movementSpeed = 5;
     public bool playerInputDisabled = false;
+    [SerializeField] public float movementSpeed = 5;
 
     // Components
-    [SerializeField] private Multiplayer mp;
+    [HideInInspector]
+    public Multiplayer mp;
     public Rigidbody2D rb;
-    private Alteruna.Avatar avatar;
-    private SpriteRenderer renderer;
+    public Alteruna.Avatar avatar;
+    public SpriteRenderer renderer;
 
     // Others
+    [HideInInspector]
+    public bool isJumping = false;
+    [SerializeField] private Transform childTransform;
     [SerializeField] private Transform groundCheck;
-    [SerializeField] LayerMask groundLayer;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] public int amountOfJumps = 1;
+    [SerializeField] public float jumpVelocity = 5;
+
+    [HideInInspector]
     public Vector2 currentVelocity { get; private set; }
     public int facingDirection { get; private set; }
     public Vector2 workspace;
-    public int amountOfJumps = 1;
-    public float jumpVelocity = 5;
-    public bool isJumping = false;
 
     private void Awake()
     {
@@ -116,8 +123,9 @@ public class Player : MonoBehaviour
     public void Flip()
     {
         facingDirection *= -1;
-        transform.Rotate(0.0f, 180f, 0.0f);
-    }
+        Vector3 randomRotation = new Vector3(0, 180, 0);
+        childTransform.Rotate(0.0f, 180f, 0.0f);
+     }
 
     public bool CheckIfGrounded()
     {
