@@ -10,15 +10,17 @@ public class Player : MonoBehaviour
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
+    public PlayerJumpState JumpState { get; private set; }
 
     // Customization
 
     // Movement
     public int xInput;
     public int yInput;
+    public bool jumpInput;
     public Vector2 inputVector;
     public Vector2 moveDirection;
-    public float movementSpeed;
+    public float movementSpeed = 5;
     public bool playerInputDisabled = false;
 
     // Components
@@ -28,15 +30,21 @@ public class Player : MonoBehaviour
     private SpriteRenderer renderer;
 
     // Others
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] LayerMask groundLayer;
     public Vector2 currentVelocity { get; private set; }
     public int facingDirection { get; private set; }
     public Vector2 workspace;
+    public int amountOfJumps = 1;
+    public float jumpVelocity = 5;
+    public bool isJumping = false;
 
     private void Awake()
     {
         StateMachine = new PlayerStateMachine();
         IdleState = new PlayerIdleState(this, StateMachine);
         MoveState = new PlayerMoveState(this, StateMachine);
+        JumpState = new PlayerJumpState(this, StateMachine);
     }
 
     private void Start()
@@ -73,7 +81,12 @@ public class Player : MonoBehaviour
 
             if (xInput != 0)
             {
-                movementSpeed = 5.0f; 
+                // movementSpeed = 5.0f; 
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
+            {
+                jumpInput = true;
             }
         }
     }
@@ -104,5 +117,15 @@ public class Player : MonoBehaviour
     {
         facingDirection *= -1;
         transform.Rotate(0.0f, 180f, 0.0f);
+    }
+
+    public bool CheckIfGrounded()
+    {
+        return Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
+    }
+
+    public void SetJumpInputToFalse()
+    {
+        jumpInput = false;
     }
 } 

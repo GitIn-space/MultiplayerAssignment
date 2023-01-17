@@ -15,6 +15,7 @@ public class PlayerGroundedstate : PlayerState
     public override void Enter()
     {
         base.Enter();
+        player.JumpState.ResetJumps();
     }
 
     public override void Exit()
@@ -28,6 +29,13 @@ public class PlayerGroundedstate : PlayerState
 
         xInput = player.xInput;
 
+        jumpInput = player.jumpInput;
+
+        if(jumpInput && player.JumpState.CanJump())
+        {
+            player.SetJumpInputToFalse();
+            stateMachine.ChangeState(player.JumpState);
+        }
     }
 
     public override void PhysicsUpdate()

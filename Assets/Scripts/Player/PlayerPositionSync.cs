@@ -9,6 +9,9 @@ public class PlayerPositionSync : Synchronizable
     private Vector3 playerPosition;
     private Vector3 oldPlayerPosition;
 
+    private Quaternion playerRotation;
+    private Quaternion oldPlayerRotation;
+
     public PlayerPositionSync()
     {
     }
@@ -23,6 +26,10 @@ public class PlayerPositionSync : Synchronizable
         playerPosition = reader.ReadVector3();
         transform.position = playerPosition;
         oldPlayerPosition = playerPosition;
+
+        playerRotation = reader.ReadQuaternion();
+        transform.rotation = playerRotation;
+        oldPlayerRotation = playerRotation;
     }
 
     public override void Serialize(ITransportStreamWriter processor, byte LOD)
@@ -43,10 +50,17 @@ public class PlayerPositionSync : Synchronizable
     private void Update()
     {
         playerPosition = transform.position;
+        playerRotation = transform.rotation;
 
         if(playerPosition != oldPlayerPosition)
         {
             oldPlayerPosition = playerPosition;
+            Commit();
+        }
+
+        if(playerRotation != oldPlayerRotation)
+        {
+            oldPlayerRotation = playerRotation;
             Commit();
         }
 
