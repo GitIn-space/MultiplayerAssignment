@@ -2,17 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGroundedstate : MonoBehaviour
+public class PlayerGroundedstate : PlayerState
 {
-    // Start is called before the first frame update
-    void Start()
+    protected int xInput;
+    private bool jumpInput;
+    private bool isGrounded;
+
+    public PlayerGroundedstate(Player player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Enter()
     {
-        
+        base.Enter();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+    public override void LogicUpdate()
+    {
+        base.LogicUpdate();
+
+        xInput = player.xInput;
+
+    }
+
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
     }
 }

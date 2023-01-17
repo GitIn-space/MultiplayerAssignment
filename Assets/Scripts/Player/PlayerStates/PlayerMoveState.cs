@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMoveState : PlayerState
+public class PlayerMoveState : PlayerGroundedstate
 {
     public PlayerMoveState(Player player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {
@@ -22,6 +22,10 @@ public class PlayerMoveState : PlayerState
     {
         base.LogicUpdate();
 
+        player.CheckIfShouldFlip(xInput);
+
+        player.SetVelocityX(xInput * 5);
+
         if(player.xInput == 0)
         {
             stateMachine.ChangeState(player.IdleState);
@@ -31,9 +35,5 @@ public class PlayerMoveState : PlayerState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-
-        Vector2 move = new Vector2(player.xInput * player.movementSpeed * Time.deltaTime, 0);
-
-        player.rb.MovePosition(player.rb.position + move);
     }
 }

@@ -27,6 +27,11 @@ public class Player : MonoBehaviour
     private Alteruna.Avatar avatar;
     private SpriteRenderer renderer;
 
+    // Others
+    public Vector2 currentVelocity { get; private set; }
+    public int facingDirection { get; private set; }
+    public Vector2 workspace;
+
     private void Awake()
     {
         StateMachine = new PlayerStateMachine();
@@ -41,6 +46,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         mp = FindObjectOfType<Multiplayer>();
 
+        facingDirection = 1;
         StateMachine.Init(IdleState);
     }
 
@@ -49,6 +55,8 @@ public class Player : MonoBehaviour
         if(!playerInputDisabled && avatar.IsMe)
         {
             GetPlayerInput();
+            currentVelocity = rb.velocity;
+            StateMachine.CurrentState.LogicUpdate();
         }
     }
 
@@ -69,4 +77,32 @@ public class Player : MonoBehaviour
             }
         }
     }
-}
+
+    public void SetVelocityX(float velocity)
+    {
+        workspace.Set(velocity, currentVelocity.y);
+        rb.velocity = workspace;
+        currentVelocity = workspace;
+    }
+
+    public void SetVelocityY(float velocity)
+    {
+        workspace.Set(currentVelocity.x, velocity);
+        rb.velocity = workspace;
+        currentVelocity = workspace;
+    }
+
+    public void CheckIfShouldFlip(int xInput)
+    {
+        if(xInput != 0 && xInput != facingDirection)
+        {
+            Flip();
+        }
+    }
+
+    public void Flip()
+    {
+        facingDirection *= -1;
+        transform.Rotate(0.0f, 180f, 0.0f);
+    }
+} 

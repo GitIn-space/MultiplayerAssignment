@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerIdleState : PlayerState
+public class PlayerIdleState : PlayerGroundedstate
 {
     public PlayerIdleState(Player player, PlayerStateMachine stateMachine) : base(player, stateMachine)
     {

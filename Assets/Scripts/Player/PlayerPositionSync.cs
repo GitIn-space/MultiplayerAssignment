@@ -21,8 +21,8 @@ public class PlayerPositionSync : Synchronizable
     public override void DisassembleData(Reader reader, byte LOD = 100)
     {
         playerPosition = reader.ReadVector3();
-        oldPlayerPosition = playerPosition;
         transform.position = playerPosition;
+        oldPlayerPosition = playerPosition;
     }
 
     public override void Serialize(ITransportStreamWriter processor, byte LOD)
