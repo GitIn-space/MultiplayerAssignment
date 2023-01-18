@@ -1,67 +1,110 @@
 using Alteruna;
 using Alteruna.Trinity;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 public class GameHUD : MonoBehaviour
 {
-    [SerializeField] private GameObject _playerList;
+    [SerializeField] private GameObject _playerContainer;
     [SerializeField] private GameObject _playerUIPrefab;
     [SerializeField] private Multiplayer _mp;
 
-    private Dictionary<User, PlayerUI> playerUIDict = new Dictionary<User, PlayerUI>();
+    private Dictionary<int, PlayerUI> playerUIDict = new Dictionary<int, PlayerUI>();
+    private List<System.Guid> guids = new List<System.Guid>();
 
-    void AddPlayerToList(Multiplayer mp, User user)
-    {
-        if (playerUIDict.ContainsKey(user)) { return; }
-        PlayerUI ui = Instantiate(_playerUIPrefab, _playerList.transform).GetComponent<PlayerUI>();
-        ui.SetName(user.Name);
-        ui.SetOwner(user);
-        playerUIDict[user] = ui;
-    }
 
+    #region placeholderfunctions
     [ContextMenu("Update Player One Score")]
-    void UpdatePlayerOneScore()
+    public void UpdatePlayerOneScore()
     {
-        playerUIDict[_mp.GetUser(0)].AddScore(5000);
+        User user = _mp.GetUser(0);
+        print($"Updating score for Player 0, user: {user}");
+        playerUIDict[user].AddScore(5000, user);
     }
 
     [ContextMenu("Update Player Two Score")]
-    void UpdatePlayerTwoScore()
+    public void UpdatePlayerTwoScore()
     {
-        playerUIDict[_mp.GetUser(1)].AddScore(5000);
+        User user = _mp.GetUser(1);
+        print($"Updating score for Player 1, user: {user}");
+        playerUIDict[user].AddScore(5000, user);
     }
-
-    void UpdatePlayerList()
+    [ContextMenu("Update Player Three Score")]
+    public void UpdatePlayerThreeScore()
     {
-        //foreach (Transform child in _playerList.transform)
-        //    Destroy(child.gameObject);
+        User user = _mp.GetUser(2);
+        print($"Updating score for Player 2, user: {user}");
+        playerUIDict[user].AddScore(5000, user);
+    }
+    #endregion
 
-        var users = _mp.GetUsers();
-        foreach (var user in users)
-            AddPlayerToList(_mp, user);
+    void AddPlayerToList(int userindex, string username, System.Guid guid, int score = 0)
+    {
+        if (playerUIDict.ContainsKey(userindex)) { return; }
+        PlayerUI ui = Instantiate(_playerUIPrefab, _playerContainer.transform).GetComponent<PlayerUI>();
+        print($"asdf {userindex} {username}");
+        ui.Initialize(username, guid, score);
+        playerUIDict[userindex] = ui;
+    }
+    System.Guid GenerateGuid()
+    {
+        var guid = System.Guid.NewGuid();
+        guids.Add(guid);
+        return guid;
     }
 
     void OnOtherUserJoined(Multiplayer mp, User user)
     {
-        print($"OtherUserJoined, user: {user} joined.");
-        UpdatePlayerList();
+        if (_mp.Me.Index != 0)
+        {
+            return;
+        }
+        print($"HOST: OtherUserJoined, user: {user} joined.");
+        var guid = GenerateGuid();
+        AddPlayerToList(user.Index, user.Name, guid);
+        CallJoinProcedure();
     }
 
     void OnRoomJoined(Multiplayer mp, Room room, User user)
     {
-        print($"RoomJoined, user: {user} joined.");
-        UpdatePlayerList();
+        if (_mp.Me.Index != 0)
+        {
+            return;
+        }
+        print($"HOST: RoomJoined, user: {user} joined.");
+        var guid = GenerateGuid();
+        AddPlayerToList(user.Index, user.Name, guid);
     }
 
+
+    void CallJoinProcedure()
+    {
+        ProcedureParameters parameters = new ProcedureParameters();
+        parameters.Set("userDataCount", guids.Count);
+        for (int i = 0; i < guids.Count; i++)
+        {
+            parameters.Set($"userData{i}", $"{playerUIDict[i].Name},{guids[i]},{playerUIDict[i].Score}");
+        }
+        _mp.InvokeRemoteProcedure("MyProcedureFunction", UserId.All, parameters);
+    }
+
+    void JoinProcedureFunction(ushort fromUser, ProcedureParameters parameters, uint callId, ITransportStreamReader processor)
+    {
+        parameters.Get("userDataCount", out int dataCount);
+        for (int i = 0; i < dataCount; i++)
+        {
+            parameters.Get($"userData{i}", out string data);
+            string[] args = data.Split(',');
+            AddPlayerToList(i, args[0], System.Guid.Parse(args[1]), int.Parse(args[2]));
+        }
+    }
     private void Awake()
     {
         _mp.OtherUserJoined.AddListener(OnOtherUserJoined);
         _mp.RoomJoined.AddListener(OnRoomJoined);
     }
-    void Update()
+
+    void Start()
     {
-
+        _mp.RegisterRemoteProcedure("MyProcedureFunction", JoinProcedureFunction);
     }
-
-
 }
