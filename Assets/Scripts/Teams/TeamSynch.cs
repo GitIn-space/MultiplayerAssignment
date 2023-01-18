@@ -1,7 +1,11 @@
 using Alteruna;
+using UnityEngine;
+using Avatar = Alteruna.Avatar;
 
 public class TeamSynch : Synchronizable
 {
+    [SerializeField] SpriteRenderer render;
+
     // Data to be synchronized with other players in our playroom.
     public int team = -1;
 
@@ -37,5 +41,16 @@ public class TeamSynch : Synchronizable
 
         // Update the Synchronizable
         base.SyncUpdate();
+    }
+
+    private void Start()
+    {
+        team = GetComponentInParent<Avatar>().Possessor.Index % 2;
+        if (team == -1)
+            render.color = new Color(255, 0, 255);
+        else if (team == 0)
+            render.color = Color.blue;
+        else
+            render.color = Color.red;
     }
 }
