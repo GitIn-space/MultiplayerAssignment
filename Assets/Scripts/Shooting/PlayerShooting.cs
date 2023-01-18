@@ -2,7 +2,6 @@ using UnityEngine;
 using Alteruna;
 using Alteruna.Trinity;
 using Avatar = Alteruna.Avatar;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(Avatar), typeof(TeamComponent))]
 public class PlayerShooting : MonoBehaviour
@@ -12,6 +11,9 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] float shootDistanceFromPlayer = 1f;
     [SerializeField] float timeBetweenShots = 0.5f;
     [SerializeField] LineRenderer shootLinePrefab;
+
+    [Space(10)]
+    [SerializeField] HealthTest health;
 
     private Avatar avatar;
     private TeamComponent tc;
@@ -25,54 +27,57 @@ public class PlayerShooting : MonoBehaviour
     private const string ToX = "toX";
     private const string ToY = "toY";
 
-    private const string HitProcedureName = "Hit";
-
-    public UnityEvent<int> OnTakeDamage;
-
     void Start()
     {
         avatar = GetComponent<Avatar>();
         tc = GetComponent<TeamComponent>();
         mp = FindObjectOfType<Multiplayer>();
         mp.RegisterRemoteProcedure(ShootProcedureName, ShootMethod);
-        mp.RegisterRemoteProcedure(HitProcedureName, HitMethod);
     }
 
     void Update()
     {
-        if (avatar.IsMe)
+        if (!avatar.IsMe)
+            return;
+
+        float time = Time.time;
+        if (Input.GetButtonDown(shootButton) && time >= lastShotTime + timeBetweenShots)
         {
-            float time = Time.time;
-            if (Input.GetButtonDown(shootButton) && time >= lastShotTime + timeBetweenShots)
+            lastShotTime = time;
+
+            Vector2 position = transform.position;
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 direction = (mousePos - position).normalized;
+            Vector2 from = position + direction * shootDistanceFromPlayer;
+
+            RaycastHit2D[] hits = Physics2D.RaycastAll(from, direction, shootRange);
+
+            Vector2 to = from + direction * shootRange;
+
+            foreach (RaycastHit2D hit in hits)
             {
-                lastShotTime = time;
-
-                Vector2 position = transform.position;
-                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector2 direction = (mousePos - position).normalized;
-                Vector2 from = position + direction * shootDistanceFromPlayer;
-
-                RaycastHit2D[] hits = Physics2D.RaycastAll(from, direction, shootRange);
-
-                Vector2 to = from + direction * shootRange;
-
-                foreach (RaycastHit2D hit in hits) 
+                TeamComponent otherTeam = hit.transform.GetComponent<TeamComponent>();
+                if (otherTeam)
                 {
-                    TeamComponent otherTeam = hit.transform.GetComponent<TeamComponent>();
-                    if (otherTeam && otherTeam.Team != tc.Team)
+                    if (otherTeam.Team != tc.Team)
                     {
-                        Avatar other = hit.transform.GetComponent<Avatar>();
+                        PlayerShooting other = hit.transform.GetComponent<PlayerShooting>();
                         if (other)
                         {
                             to = hit.point;
-                            CallHitProcedure(other.Possessor);
+                            other.health.TakeDamage(1);
                             break;
                         }
                     }
                 }
-
-                CallShootProcedure(from, to);
+                else // If we hit something that wasnt a player like a wall
+                {
+                    to = hit.point;
+                    break;
+                }
             }
+
+            CallShootProcedure(from, to);
         }
     }
 
@@ -98,19 +103,5 @@ public class PlayerShooting : MonoBehaviour
         LineRenderer line = Instantiate(shootLinePrefab);
         line.SetPosition(0, from);
         line.SetPosition(1, to);
-    }
-
-    void CallHitProcedure(User hitUser)
-    {
-        ProcedureParameters parameters = new ProcedureParameters();
-        parameters.Set("damage", 1);
-        mp.InvokeRemoteProcedure(HitProcedureName, hitUser.Index, parameters);
-    }
-
-    void HitMethod(ushort fromUser, ProcedureParameters parameters, uint callId, ITransportStreamReader processor)
-    {
-        Debug.Log("I've been hit, take damage somehow!");
-        int damage = parameters.Get("damage", 1);
-        OnTakeDamage.Invoke(damage);
     }
 }
