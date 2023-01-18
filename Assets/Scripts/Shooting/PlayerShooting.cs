@@ -13,7 +13,7 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] LineRenderer shootLinePrefab;
 
     [Space(10)]
-    [SerializeField] HealthTest health;
+    [SerializeField] Health health;
 
     private Avatar avatar;
     private TeamComponent tc;

@@ -1,11 +1,13 @@
 using UnityEngine;
 using Alteruna;
+using UnityEngine.Events;
 
-public class HealthTest : Synchronizable
+public class Health : Synchronizable
 {
-    public int health = 3;
+    [SerializeField] int health = 3;
+    int oldHealth;
 
-    private int oldHealth;
+    public UnityEvent<int> OnHealthChanged;
 
     public override void AssembleData(Writer writer, byte LOD = 100)
     {
@@ -16,6 +18,7 @@ public class HealthTest : Synchronizable
     {
         health = reader.ReadInt();
         oldHealth = health;
+        OnHealthChanged?.Invoke(health);
     }
 
     private void Update()
@@ -31,5 +34,6 @@ public class HealthTest : Synchronizable
     public void TakeDamage(int damage)
     {
         health -= damage;
+        OnHealthChanged?.Invoke(health);
     }
 }
