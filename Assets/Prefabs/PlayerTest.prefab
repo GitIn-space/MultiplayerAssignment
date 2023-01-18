@@ -340,6 +340,7 @@ MonoBehaviour:
   timeBetweenShots: 0.5
   shootLinePrefab: {fileID: 216863804757357425, guid: bd14ec38ccd5b3c46b3637e66b0ead36, type: 3}
   health: {fileID: 2587172752913786108}
+  teamSynch: {fileID: 5814239019103242770}
 --- !u!114 &2540240855999937477
 MonoBehaviour:
   m_ObjectHideFlags: 0

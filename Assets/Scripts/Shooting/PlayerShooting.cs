@@ -14,6 +14,7 @@ public class PlayerShooting : MonoBehaviour
 
     [Space(10)]
     [SerializeField] Health health;
+    [SerializeField] TeamSynch teamSynch;
 
     private Avatar avatar;
     private TeamComponent tc;
@@ -56,18 +57,14 @@ public class PlayerShooting : MonoBehaviour
 
             foreach (RaycastHit2D hit in hits)
             {
-                TeamComponent otherTeam = hit.transform.GetComponent<TeamComponent>();
-                if (otherTeam)
+                PlayerShooting other = hit.transform.GetComponent<PlayerShooting>();
+                if (other)
                 {
-                    if (otherTeam.Team != tc.Team)
+                    if (other.teamSynch.team != teamSynch.team)
                     {
-                        PlayerShooting other = hit.transform.GetComponent<PlayerShooting>();
-                        if (other)
-                        {
-                            to = hit.point;
-                            other.health.TakeDamage(1);
-                            break;
-                        }
+                        to = hit.point;
+                        other.health.TakeDamage(1);
+                        break;
                     }
                 }
                 else // If we hit something that wasnt a player like a wall
