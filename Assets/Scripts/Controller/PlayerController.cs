@@ -70,8 +70,8 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown("space"))
                 CallMyProcedure();
 
-            if (Input.GetKeyDown(KeyCode.T))
-                tc.StartDividingIntoTeams();
+            /*if (Input.GetKeyDown(KeyCode.T))
+                tc.StartDividingIntoTeams();*/
         }
         else
         {
