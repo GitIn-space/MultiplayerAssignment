@@ -4,7 +4,7 @@ using UnityEngine;
 public class TraceLine : MonoBehaviour
 {
     [SerializeField] float lifetime = 1;
-    [SerializeField] float targetAlpha;
+    [SerializeField, Range(0, 1)] float targetAlpha = 0;
     float timeleft = 0;
 
     LineRenderer line;
@@ -37,5 +37,11 @@ public class TraceLine : MonoBehaviour
         float t = 1 - timeleft / lifetime;
         line.startColor = Color.Lerp(start, targetStart, t);
         line.endColor = Color.Lerp(end, targetEnd, t);
+    }
+
+    public void SetPositions(Vector2 start, Vector2 end)
+    {
+        line.SetPosition(0, start);
+        line.SetPosition(1, end);
     }
 }

@@ -10,7 +10,7 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] float shootRange = 10f;
     [SerializeField] float shootDistanceFromPlayer = 1f;
     [SerializeField] float timeBetweenShots = 0.5f;
-    [SerializeField] LineRenderer shootLinePrefab;
+    [SerializeField] TraceLine shootLinePrefab;
 
     [Space(10)]
     [SerializeField] Health health;
@@ -100,8 +100,7 @@ public class PlayerShooting : MonoBehaviour
         Vector2 from = new Vector2(fromX, fromY);
         Vector2 to = new Vector2(toX, toY);
 
-        LineRenderer line = Instantiate(shootLinePrefab);
-        line.SetPosition(0, from);
-        line.SetPosition(1, to);
+        TraceLine line = Instantiate(shootLinePrefab);
+        line.SetPositions(from, to);
     }
 }
