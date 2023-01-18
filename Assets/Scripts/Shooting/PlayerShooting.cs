@@ -3,7 +3,7 @@ using Alteruna;
 using Alteruna.Trinity;
 using Avatar = Alteruna.Avatar;
 
-[RequireComponent(typeof(Avatar), typeof(TeamComponent))]
+[RequireComponent(typeof(Avatar))]
 public class PlayerShooting : MonoBehaviour
 {
     [SerializeField] string shootButton = "Fire1";
@@ -12,12 +12,10 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] float timeBetweenShots = 0.5f;
     [SerializeField] TraceLine shootLinePrefab;
 
-    [Space(10)]
-    [SerializeField] Health health;
-    [SerializeField] TeamSynch teamSynch;
+    Health health;
+    TeamSynch teamSynch;
 
     private Avatar avatar;
-    private TeamComponent tc;
     private Multiplayer mp;
 
     private float lastShotTime = float.NegativeInfinity;
@@ -30,8 +28,10 @@ public class PlayerShooting : MonoBehaviour
 
     void Start()
     {
+        health = GetComponentInChildren<Health>();
+        teamSynch = GetComponentInChildren<TeamSynch>();
+
         avatar = GetComponent<Avatar>();
-        tc = GetComponent<TeamComponent>();
         mp = FindObjectOfType<Multiplayer>();
         mp.RegisterRemoteProcedure(ShootProcedureName, ShootMethod);
     }
