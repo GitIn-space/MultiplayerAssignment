@@ -5,9 +5,19 @@ using UnityEngine.Events;
 public class Health : Synchronizable
 {
     [SerializeField] int health = 3;
-    int oldHealth;
+    [SerializeField] SpriteRenderer render;
 
     public UnityEvent<int> OnHealthChanged;
+
+    private void Start()
+    {
+        OnHealthChanged.AddListener(HealthChanged);
+    }
+
+    private void OnDisable()
+    {
+        OnHealthChanged.RemoveListener(HealthChanged);
+    }
 
     public override void AssembleData(Writer writer, byte LOD = 100)
     {
@@ -17,17 +27,11 @@ public class Health : Synchronizable
     public override void DisassembleData(Reader reader, byte LOD = 100)
     {
         health = reader.ReadInt();
-        oldHealth = health;
         OnHealthChanged?.Invoke(health);
     }
 
     private void Update()
-    {
-        if (health != oldHealth)
-        {
-            oldHealth = health;
-            Commit();
-        }
+    {    
         base.SyncUpdate();
     }
 
@@ -35,5 +39,12 @@ public class Health : Synchronizable
     {
         health -= damage;
         OnHealthChanged?.Invoke(health);
+        Commit();
+    }
+
+    void HealthChanged(int health)
+    {
+        if (health <= 0)
+            render.color = Color.black;
     }
 }
