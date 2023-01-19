@@ -28,11 +28,15 @@ public class TeamMemberHandler : MonoBehaviour
 
     private void DeregisterPlayer(ushort fromUser, ProcedureParameters parameters, uint callId, ITransportStreamReader processor)
     {
-        int team = parameters.Get("team", -1);
-        if(team == 0)
-            team0--;
-        else if(team == 1)
-            team1--;
+        switch (parameters.Get("team", -1))
+        {
+            case 0:
+                team0--;
+                break;
+            case 1:
+                team1--;
+                break;
+        }
 
         if (team0 <= 0 || team1 <= 0)
         {
