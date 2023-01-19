@@ -54,10 +54,28 @@ public class Player : MonoBehaviour
         JumpState = new PlayerJumpState(this, StateMachine);
     }
 
+    public void EnablePlayer(bool enable)
+    {
+        switch (enable)
+        {
+            case true:
+                playerInputDisabled = false;
+                break;
+            case false:
+                playerInputDisabled = true;
+                renderer.color = Color.black;
+
+                ProcedureParameters parms = new ProcedureParameters();
+                parms.Set("team", (int) GetComponentInChildren<TeamSynch>().team);
+                mp.InvokeRemoteProcedure("DeregisterPlayer", UserId.AllInclusive, parms);
+
+                break;
+        }
+    }
+
     private void Start()
     {
         avatar = GetComponent<Alteruna.Avatar>();
-        renderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         mp = FindObjectOfType<Multiplayer>();
 

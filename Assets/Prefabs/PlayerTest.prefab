@@ -266,7 +266,7 @@ MonoBehaviour:
   mp: {fileID: 0}
   rb: {fileID: 0}
   avatar: {fileID: 0}
-  renderer: {fileID: 0}
+  renderer: {fileID: 7972568776702900316}
   isJumping: 0
   childTransform: {fileID: 4886868741738165520}
   groundCheck: {fileID: 1771955828129449422}
@@ -620,9 +620,6 @@ MonoBehaviour:
     NeverString: Never
     RealtimeString: Realtime
   render: {fileID: 7972568776702900316}
-  errorColor: {r: 255, g: 0, b: 255, a: 1}
-  allyColor: {r: 0, g: 0, b: 1, a: 1}
-  enemyColor: {r: 1, g: 0, b: 0, a: 1}
   team: -1
 --- !u!1 &5747643798259354013
 GameObject:

@@ -45,6 +45,6 @@ public class Health : Synchronizable
     void HealthChanged(int health)
     {
         if (health <= 0)
-            render.color = Color.black;
+            GetComponentInParent<Player>().EnablePlayer(false);
     }
 }

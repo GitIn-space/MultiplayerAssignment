@@ -52,5 +52,9 @@ public class TeamSynch : Synchronizable
             render.color = Color.blue;
         else
             render.color = Color.red;
+
+        ProcedureParameters parameters = new ProcedureParameters();
+        parameters.Set("team", team);
+        Multiplayer.InvokeRemoteProcedure("RegisterPlayer", UserId.AllInclusive, parameters);
     }
 }
