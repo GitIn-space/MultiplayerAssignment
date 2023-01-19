@@ -9,13 +9,11 @@ public class PlayerUI : Synchronizable
 
     private string _name = "";
     private string _oldName = "";
-
-    public string Name => _name;
-    public int Score => _score;
-
     private int _score = 0;
     private int _oldScore = 0;
 
+    public string Name => _name;
+    public int Score => _score;
     public void Initialize(string name, System.Guid guid, int score)
     {
         _name = name;
@@ -29,14 +27,14 @@ public class PlayerUI : Synchronizable
 
     public override void AssembleData(Writer writer, byte LOD)
     {
-        print($"assembling data, instanceid {GetInstanceID()}, name == {_name}, score == {_score}");
+        //print($"assembling data, instanceid {GetInstanceID()}, name == {_name}, score == {_score}");
         writer.Write(_name);
         writer.Write(_score);
     }
 
     public override void DisassembleData(Reader reader, byte LOD)
     {
-        print($"disassembling data, instanceid {GetInstanceID()} name == {_name}, score == {_score}");
+        //print($"disassembling data, instanceid {GetInstanceID()} name == {_name}, score == {_score}");
         _name = reader.ReadString();
         _score = reader.ReadInt();
         _oldName = _name;
