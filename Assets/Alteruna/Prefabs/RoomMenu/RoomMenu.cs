@@ -1,12 +1,13 @@
+using Alteruna;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Alteruna;
-using System.Collections;
 
 public class RoomMenu : MonoBehaviour
 {
     private const float REFRESH_LIST_INTERVAL = 5.0f;
+    [SerializeField] private GameObject _uiPanel;
 
     [SerializeField]
     private Text TitleText;
@@ -92,6 +93,7 @@ public class RoomMenu : MonoBehaviour
         {
             TitleText.text = "In Room " + room.Name;
         }
+        _uiPanel.SetActive(false);
     }
 
     private void LeftRoom(Multiplayer multiplayer)
@@ -100,6 +102,7 @@ public class RoomMenu : MonoBehaviour
         {
             TitleText.text = "Rooms";
         }
+        _uiPanel.SetActive(true);
     }
 
     private void Start()
@@ -132,9 +135,18 @@ public class RoomMenu : MonoBehaviour
 
     private IEnumerator RefreshRooms()
     {
-        while (AutomaticallyRefresh) {
+        while (AutomaticallyRefresh)
+        {
             yield return new WaitForSeconds(RefreshInterval);
             _aump.RefreshRoomList();
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            _aump.CurrentRoom?.Leave();
         }
     }
 }
