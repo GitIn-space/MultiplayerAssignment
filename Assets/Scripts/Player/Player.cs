@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Alteruna;
-using Alteruna.Trinity;
-using TMPro;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
@@ -28,7 +24,7 @@ public class Player : MonoBehaviour
     // Components
     [HideInInspector]
     public Multiplayer mp;
-    public Rigidbody2D rb;
+    public Rigidbody2DSynchronizable rb;
     public Alteruna.Avatar avatar;
     public SpriteRenderer renderer;
 
@@ -66,7 +62,7 @@ public class Player : MonoBehaviour
                 renderer.color = Color.black;
 
                 ProcedureParameters parms = new ProcedureParameters();
-                parms.Set("team", (int) GetComponentInChildren<TeamSynch>().team);
+                parms.Set("team", (int)GetComponentInChildren<TeamSynch>().team);
                 mp.InvokeRemoteProcedure("DeregisterPlayer", UserId.AllInclusive, parms);
 
                 break;
@@ -76,7 +72,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         avatar = GetComponent<Alteruna.Avatar>();
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2DSynchronizable>();
         mp = FindObjectOfType<Multiplayer>();
 
         facingDirection = 1;
@@ -85,7 +81,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if(!playerInputDisabled && avatar.IsMe)
+        if (!playerInputDisabled && avatar.IsMe)
         {
             GetPlayerInput();
             currentVelocity = rb.velocity;
@@ -100,7 +96,7 @@ public class Player : MonoBehaviour
 
     private void GetPlayerInput()
     {
-        if(!playerInputDisabled)
+        if (!playerInputDisabled)
         {
             xInput = (int)Input.GetAxisRaw("Horizontal");
 
@@ -132,7 +128,7 @@ public class Player : MonoBehaviour
 
     public void CheckIfShouldFlip(int xInput)
     {
-        if(xInput != 0 && xInput != facingDirection)
+        if (xInput != 0 && xInput != facingDirection)
         {
             Flip();
         }
@@ -143,7 +139,7 @@ public class Player : MonoBehaviour
         facingDirection *= -1;
         Vector3 randomRotation = new Vector3(0, 180, 0);
         childTransform.Rotate(0.0f, 180f, 0.0f);
-     }
+    }
 
     public bool CheckIfGrounded()
     {
@@ -154,4 +150,4 @@ public class Player : MonoBehaviour
     {
         jumpInput = false;
     }
-} 
+}
