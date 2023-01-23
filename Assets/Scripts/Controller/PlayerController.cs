@@ -9,12 +9,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float RotationSpeed = 180.0f;
     [SerializeField] private Multiplayer mp;
     [SerializeField] private TextMeshProUGUI winText;
-    [SerializeField] private TextMeshProUGUI team1;
-    [SerializeField] private TextMeshProUGUI team2;
 
     private Alteruna.Avatar _avatar;
     private SpriteRenderer _renderer;
-    private int index;
+    private TeamComponent tc;
+    private static TeamComponent mytc;
 
     void MyProcedureFunction(ushort fromUser, ProcedureParameters parameters, uint callId, ITransportStreamReader processor)
     {
@@ -43,6 +42,8 @@ public class PlayerController : MonoBehaviour
         mp = FindObjectOfType<Multiplayer>();
         mp.RegisterRemoteProcedure("MyProcedureName", MyProcedureFunction);
         winText = GameObject.Find("WinText").GetComponent<TextMeshProUGUI>();
+
+        tc = GetComponent<TeamComponent>();
     }
 
     void Update()
@@ -50,6 +51,9 @@ public class PlayerController : MonoBehaviour
         // Only let input affect the avatar if it belongs to me
         if (_avatar.IsMe)
         {
+            if (mytc == null)
+                mytc = tc;
+
             // Set the avatar representing me to be green
             _renderer.color = Color.green;
 
@@ -65,6 +69,16 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown("space"))
                 CallMyProcedure();
+
+            /*if (Input.GetKeyDown(KeyCode.T))
+                tc.StartDividingIntoTeams();*/
+        }
+        else
+        {
+            if (tc.Team == mytc.Team)
+                _renderer.color = Color.blue;
+            else
+                _renderer.color = Color.red;
         }
     }
 }
