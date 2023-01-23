@@ -1,6 +1,6 @@
-using UnityEngine;
 using Alteruna;
 using Alteruna.Trinity;
+using UnityEngine;
 using Avatar = Alteruna.Avatar;
 
 [RequireComponent(typeof(Avatar))]
@@ -54,9 +54,9 @@ public class PlayerShooting : MonoBehaviour
             RaycastHit2D[] hits = Physics2D.RaycastAll(from, direction, shootRange);
 
             Vector2 to = from + direction * shootRange;
-
             foreach (RaycastHit2D hit in hits)
             {
+
                 PlayerShooting other = hit.transform.GetComponent<PlayerShooting>();
                 if (other)
                 {
@@ -64,6 +64,7 @@ public class PlayerShooting : MonoBehaviour
                     {
                         to = hit.point;
                         other.health.TakeDamage(1);
+                        EventHandler.RaiseUserHit(avatar.Possessor, other.avatar.Possessor);
                         break;
                     }
                 }

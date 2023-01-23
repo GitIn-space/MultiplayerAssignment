@@ -41,7 +41,7 @@ public class PlayerUI : Synchronizable
         _scoreTextComponent.text = _score.ToString();
     }
 
-    public void AddScore(int score, User user)
+    public void AddScore(int score)
     {
         _score += score;
         _scoreTextComponent.text = _score.ToString();

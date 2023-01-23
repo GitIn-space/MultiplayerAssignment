@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class GameHUD : MonoBehaviour
 {
+    [SerializeField] private GameObject _uiPanel;
     [SerializeField] private GameObject _playerContainer;
     [SerializeField] private GameObject _playerUIPrefab;
     [SerializeField] private Multiplayer _mp;
@@ -21,28 +22,6 @@ public class GameHUD : MonoBehaviour
     private ushort _hostIndex = ushort.MaxValue;
     private Coroutine _hostCoroutine = null;
     private bool IsHost => _hostIndex == _mp.Me.Index;
-
-    #region placeholderfunctions
-    [ContextMenu("Update Player One Score")]
-    public void UpdatePlayerOneScore()
-    {
-        User user = _mp.GetUser(0);
-        _playerUIDict[user].playerUI.AddScore(5000, user);
-    }
-
-    [ContextMenu("Update Player Two Score")]
-    public void UpdatePlayerTwoScore()
-    {
-        User user = _mp.GetUser(1);
-        _playerUIDict[user].playerUI.AddScore(5000, user);
-    }
-    [ContextMenu("Update Player Three Score")]
-    public void UpdatePlayerThreeScore()
-    {
-        User user = _mp.GetUser(2);
-        _playerUIDict[user].playerUI.AddScore(5000, user);
-    }
-    #endregion
 
     void ResetChanges()
     {
@@ -92,10 +71,12 @@ public class GameHUD : MonoBehaviour
     void OnRoomJoined(Multiplayer mp, Room room, User user)
     {
         _hostCoroutine = StartCoroutine(TryAssumeHost(user));
+        _uiPanel.SetActive(true);
     }
     void OnRoomLeft(Multiplayer mp)
     {
         ResetChanges();
+        _uiPanel.SetActive(false);
     }
     void OnOtherUserLeft(Multiplayer mp, User user)
     {
@@ -150,6 +131,15 @@ public class GameHUD : MonoBehaviour
         _mp.RoomJoined.AddListener(OnRoomJoined);
         _mp.RoomLeft.AddListener(OnRoomLeft);
         _mp.OtherUserLeft.AddListener(OnOtherUserLeft);
+        EventHandler.UserHit += OnUserHit;
+    }
+
+    private void OnUserHit(User sender, User hitUser)
+    {
+        if (!_playerUIDict.ContainsKey(sender))
+            return;
+
+        _playerUIDict[sender].playerUI.AddScore(100);
     }
 
     void Start()
