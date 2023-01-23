@@ -27,14 +27,12 @@ public class PlayerUI : Synchronizable
 
     public override void AssembleData(Writer writer, byte LOD)
     {
-        //print($"assembling data, instanceid {GetInstanceID()}, name == {_name}, score == {_score}");
         writer.Write(_name);
         writer.Write(_score);
     }
 
     public override void DisassembleData(Reader reader, byte LOD)
     {
-        //print($"disassembling data, instanceid {GetInstanceID()} name == {_name}, score == {_score}");
         _name = reader.ReadString();
         _score = reader.ReadInt();
         _oldName = _name;
@@ -45,7 +43,6 @@ public class PlayerUI : Synchronizable
 
     public void AddScore(int score, User user)
     {
-        //if (user != _owner) { return; }
         _score += score;
         _scoreTextComponent.text = _score.ToString();
     }

@@ -2,14 +2,12 @@ using Alteruna;
 using Alteruna.Trinity;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 public class GameHUD : MonoBehaviour
 {
     [SerializeField] private GameObject _playerContainer;
     [SerializeField] private GameObject _playerUIPrefab;
     [SerializeField] private Multiplayer _mp;
-    [SerializeField] private TMP_Text _hostTextLabel;
 
     private Dictionary<ushort, UserUIData> _playerUIDict = new Dictionary<ushort, UserUIData>();
 
@@ -29,7 +27,6 @@ public class GameHUD : MonoBehaviour
     public void UpdatePlayerOneScore()
     {
         User user = _mp.GetUser(0);
-        //print($"Updating score for Player 0, user: {user}");
         _playerUIDict[user].playerUI.AddScore(5000, user);
     }
 
@@ -37,14 +34,12 @@ public class GameHUD : MonoBehaviour
     public void UpdatePlayerTwoScore()
     {
         User user = _mp.GetUser(1);
-        //print($"Updating score for Player 1, user: {user}");
         _playerUIDict[user].playerUI.AddScore(5000, user);
     }
     [ContextMenu("Update Player Three Score")]
     public void UpdatePlayerThreeScore()
     {
         User user = _mp.GetUser(2);
-        //print($"Updating score for Player 2, user: {user}");
         _playerUIDict[user].playerUI.AddScore(5000, user);
     }
     #endregion
@@ -57,7 +52,6 @@ public class GameHUD : MonoBehaviour
         }
         _playerUIDict.Clear();
         _hostIndex = ushort.MaxValue;
-        _hostTextLabel.text = "NOT HOST";
     }
 
     void AddPlayerToList(ushort userindex, string username, System.Guid guid, int score = 0)
@@ -81,7 +75,6 @@ public class GameHUD : MonoBehaviour
             _hostIndex = user.Index;
             var guid = GenerateGuid();
             AddPlayerToList(user.Index, user.Name, guid);
-            _hostTextLabel.text = "HOST";
         }
     }
     void OnOtherUserJoined(Multiplayer mp, User user)
@@ -91,7 +84,6 @@ public class GameHUD : MonoBehaviour
             StopCoroutine(_hostCoroutine);
             return;
         }
-        //print($"HOST: OtherUserJoined, user: {user} joined.");
         var guid = GenerateGuid();
         AddPlayerToList(user.Index, user.Name, guid);
         CallJoinProcedure();
@@ -123,8 +115,6 @@ public class GameHUD : MonoBehaviour
         }
 
         _hostIndex = minIndex;
-        if (IsHost)
-            _hostTextLabel.text = "HOST";
     }
     void CallJoinProcedure()
     {
