@@ -274,7 +274,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   amountOfJumps: 1
-  jumpVelocity: 10
+  jumpVelocity: 12
   workspace: {x: 0, y: 0}
 --- !u!50 &1128675436149433197
 Rigidbody2D:
@@ -292,7 +292,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 1
   m_GravityScale: 2
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 6074d7bb53047254bbbd284e8ef43664, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootButton: Fire1
-  shootRange: 10
+  shootRange: 15
   shootDistanceFromPlayer: 1
   timeBetweenShots: 0.5
   shootLinePrefab: {fileID: 216863804757357425, guid: bd14ec38ccd5b3c46b3637e66b0ead36, type: 3}
